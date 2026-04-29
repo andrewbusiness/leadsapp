@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Leads</title>
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 16px;
+      background: #f7f7f7;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    input, textarea {
+      width: 100%;
+      font-size: 16px;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      font-size: 18px;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: black;
+      color: white;
+    }
+
+    button:active {
+      opacity: 0.7;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 14px;
+      color: green;
+      height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <input id="name" placeholder="Name (optional)" />
+    <input id="address" placeholder="Address" />
+    <input id="phone" placeholder="Phone (optional)" />
+
+    <input id="day" placeholder="Day booked (optional)" />
+    <input id="time" placeholder="Time booked (optional)" />
+
+    <textarea id="notes" placeholder="Notes"></textarea>
+
+    <button onclick="saveLead()">Save</button>
+    <div class="status" id="status"></div>
+
+  </div>
+
+  <script>
+    const url = "https://script.google.com/macros/s/AKfycbzgoUEQrQWnP0itfWV7D3fI_ovUoT-_jpHT_Q463aAC6v2zDUZAjhqZY32ankJIOS6A9Q/exec";
+
+    const status = document.getElementById("status");
+
+    async function saveLead() {
+      const data = {
+        name: document.getElementById("name").value,
+        address: document.getElementById("address").value,
+        phone: document.getElementById("phone").value,
+        day: document.getElementById("day").value,
+        time: document.getElementById("time").value,
+        notes: document.getElementById("notes").value
+      };
+
+      if (!data.address && !data.notes) return;
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const text = await res.text();
+        console.log(text);
+
+        // Clear inputs
+        document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+
+        status.innerText = "Saved ✅";
+        setTimeout(() => status.innerText = "", 800);
+
+      } catch (err) {
+        console.error(err);
+        status.innerText = "Error ❌";
+      }
+    }
+  </script>
+</body>
+</html>
