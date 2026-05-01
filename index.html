@@ -87,14 +87,14 @@
 
   function saveLead() {
     const data = {
-      name: document.getElementById("name").value,
-      address: document.getElementById("address").value,
-      phone: document.getElementById("phone").value,
-      day: document.getElementById("day").value,
-      time: document.getElementById("time").value,
-      notes: document.getElementById("notes").value
-    };
-
+  salesperson: document.getElementById("salesperson").value,
+  name: document.getElementById("name").value,
+  address: document.getElementById("address").value,
+  phone: document.getElementById("phone").value,
+  day: document.getElementById("day").value,
+  time: document.getElementById("time").value,
+  notes: document.getElementById("notes").value
+};
     const form = document.createElement("form");
     form.method = "POST";
     form.action = url;
